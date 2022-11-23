@@ -1,49 +1,18 @@
 //
-//  ViewController.swift
+//  AuthManager.swift
 //  GitHubSearcher
 //
-//  Created by Ivan Pestov on 22.11.2022.
+//  Created by Ivan Pestov on 23.11.2022.
 //
 
+import Foundation
 import UIKit
 import AuthenticationServices
 
-final class LoginViewController: UIViewController, ASWebAuthenticationPresentationContextProviding {
+class AuthManager: NSObject,ASWebAuthenticationPresentationContextProviding {
     
-    var isLoading = false
-    var isShowingRepositoriesView = false
-    
-    let authManager = AuthentificationManager()
     let profileManager = ProfileUserManager()
-    
-    private let signInButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 12
-        button.setTitle("Sign In", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        signInButton.addTarget(self, action: #selector(githubLogin), for: .touchUpInside)
-        setupLayout()
-        appeared()
-    }
-    
-    func setupLayout() {
-        view.addSubview(signInButton)
-        NSLayoutConstraint.activate([
-            signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            signInButton.widthAnchor.constraint(equalToConstant: 250),
-        ])
-    }
-    
-    @objc private func githubLogin() {
-        githubAuth()
-    }
+    var isLoading = false
     
     func githubAuth() {
         guard let signInURL =
@@ -59,16 +28,12 @@ final class LoginViewController: UIViewController, ASWebAuthenticationPresentati
                 guard
                     error == nil,
                     let callbackURL = callbackURL,
-                    // 2
                     let queryItems = URLComponents(string: callbackURL.absoluteString)?
                         .queryItems,
-                    // 3
                     let code = queryItems.first(where: { $0.name == "code" })?.value,
-                    // 4
                     let networkRequest =
                         NetworkRequest.RequestType.codeExchange(code: code).networkRequest()
                 else {
-                    // 5
                     print("An error occurred when attempting to sign in.")
                     return
                 }
@@ -92,12 +57,7 @@ final class LoginViewController: UIViewController, ASWebAuthenticationPresentati
         }
     }
     
-    func appeared() {
-        profileManager.getUser()
-    }
-    
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        return view.window!
+        return ASPresentationAnchor()
     }
 }
-
