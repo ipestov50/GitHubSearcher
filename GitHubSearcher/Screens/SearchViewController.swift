@@ -9,7 +9,14 @@ import UIKit
 
 class SearchViewController: UIViewController, UISearchResultsUpdating {
     
-    let searchController = UISearchController()
+    private var repositories = [Repository]()
+
+    private var searchController: UISearchController = {
+        let searchController = UISearchController()
+        searchController.searchBar.placeholder = "Search repository"
+        searchController.searchBar.searchBarStyle = . minimal
+        return searchController
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +26,11 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        print(text)
+        guard let query = searchController.searchBar.text else { return }
+        RepositoryManager.shared.find(query: query, page: 30) { repo in
+            print(repo)
+        }
+        
     }
 
 }
