@@ -25,6 +25,7 @@ final class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         signInButton.addTarget(self, action: #selector(githubLogin), for: .touchUpInside)
         setupLayout()
         appeared()
