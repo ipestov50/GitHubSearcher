@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AuthenticationServices
 
 final class LoginViewController: UIViewController {
     
@@ -41,7 +40,10 @@ final class LoginViewController: UIViewController {
     }
     
     @objc private func githubLogin() {
-        authManager.githubAuth()
+        authManager.githubAuth(completion: {
+            self.present(TabBarViewController(), animated: true)
+            print("success")
+        })
     }
     
     func appeared() {

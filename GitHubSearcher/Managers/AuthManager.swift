@@ -14,7 +14,7 @@ class AuthManager: NSObject,ASWebAuthenticationPresentationContextProviding {
     let profileManager = ProfileUserManager()
     var isLoading = false
     
-    func githubAuth() {
+    func githubAuth(completion: @escaping () -> ()) {
         guard let signInURL =
                 NetworkRequest.RequestType.signIn.networkRequest()?.url
         else {
@@ -43,9 +43,11 @@ class AuthManager: NSObject,ASWebAuthenticationPresentationContextProviding {
                     switch result {
                     case .success:
                         self?.profileManager.getUser()
+                        completion()
                     case .failure(let error):
                         print("Failed to exchange access code for tokens: \(error)")
                     }
+                    
                 }
             }
         

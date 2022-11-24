@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		73C2AB2C292E96B500866BF2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2AB2B292E96B500866BF2 /* AuthManager.swift */; };
+		73C2AB2E292E9A1400866BF2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2AB2D292E9A1400866BF2 /* TabBarViewController.swift */; };
+		73C2AB31292EA34000866BF2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2AB30292EA34000866BF2 /* SearchViewController.swift */; };
 		84BA9EEE292D10D200C65127 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA9EED292D10D200C65127 /* NetworkRequest.swift */; };
 		84BA9EF0292D117C00C65127 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA9EEF292D117C00C65127 /* User.swift */; };
 		84C04678292CC5C900CBD178 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C04677292CC5C900CBD178 /* AppDelegate.swift */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		73C2AB2B292E96B500866BF2 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		73C2AB2D292E9A1400866BF2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		73C2AB30292EA34000866BF2 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		84BA9EED292D10D200C65127 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		84BA9EEF292D117C00C65127 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		84C04674292CC5C900CBD178 /* GitHubSearcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubSearcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,9 +54,19 @@
 		73C2AB2A292E4A6F00866BF2 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				73C2AB2F292EA20600866BF2 /* TabBarViewController */,
 				84C0467B292CC5C900CBD178 /* LoginViewController.swift */,
+				73C2AB30292EA34000866BF2 /* SearchViewController.swift */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		73C2AB2F292EA20600866BF2 /* TabBarViewController */ = {
+			isa = PBXGroup;
+			children = (
+				73C2AB2D292E9A1400866BF2 /* TabBarViewController.swift */,
+			);
+			path = TabBarViewController;
 			sourceTree = "<group>";
 		};
 		84BA9EEA292D10A800C65127 /* Models */ = {
@@ -177,10 +191,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73C2AB31292EA34000866BF2 /* SearchViewController.swift in Sources */,
 				84BA9EEE292D10D200C65127 /* NetworkRequest.swift in Sources */,
 				73C2AB2C292E96B500866BF2 /* AuthManager.swift in Sources */,
 				84C0467C292CC5C900CBD178 /* LoginViewController.swift in Sources */,
 				84C6FD54292CE77900F098F7 /* ProfileUserManager.swift in Sources */,
+				73C2AB2E292E9A1400866BF2 /* TabBarViewController.swift in Sources */,
 				84C04678292CC5C900CBD178 /* AppDelegate.swift in Sources */,
 				84BA9EF0292D117C00C65127 /* User.swift in Sources */,
 				84C0467A292CC5C900CBD178 /* SceneDelegate.swift in Sources */,
