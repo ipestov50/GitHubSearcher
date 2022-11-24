@@ -18,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = LoginViewController()
+        let nc = UINavigationController(rootViewController: SearchViewController())
+        window?.rootViewController = nc
         window?.makeKeyAndVisible()
         
         
