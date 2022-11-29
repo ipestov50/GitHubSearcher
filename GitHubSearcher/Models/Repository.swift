@@ -7,11 +7,14 @@
 
 import Foundation
 
-struct Repository: Identifiable, Codable, Hashable {
+struct Repository: Codable, Comparable {
+    static func < (lhs: Repository, rhs: Repository) -> Bool {
+        lhs.name.lowercased() < rhs.name.lowercased()
+    }
     
     var id: Int
     var node_id: String?
-    var name: String?
+    var name: String
     var html_url: String?
     var description: String?
     var visibility: String?
