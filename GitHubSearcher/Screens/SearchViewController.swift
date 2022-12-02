@@ -6,8 +6,24 @@
 //
 
 import UIKit
+import CoreData
 
 class SearchViewController: UIViewController, UISearchResultsUpdating {
+    
+    var fetchResultController: NSFetchedResultsController<NSFetchRequestResult> = {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.entity)
+        let sortDescriptor = NSSortDescriptor(key: Constants.sortName, ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.context, sectionNameKeyPath: nil, cacheName: nil)
+        do {
+            try fetchedResultController.performFetch()
+        } catch {
+            print(error)
+        }
+        return fetchedResultController
+    }()
+    
+    let dataBaseStrategy = DataBaseStrategy()
     
     enum TableSelection: Int {
         case userList
@@ -20,7 +36,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
     private var searchController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Search repository"
-        searchController.searchBar.searchBarStyle = . minimal
+        searchController.searchBar.searchBarStyle = .minimal
         return searchController
     }()
     
@@ -41,23 +57,19 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
         view.backgroundColor = .white
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
-        setupUIConstraints()
-        
+        setupLayout()
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         tableView.register(CustomTableViewCell.nib(), forCellReuseIdentifier: CustomTableViewCell.identifier)
-        
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text else { return }
-        
         RepositoryManager.shared.find(query: query) { [self] result in
             handleData(result: result, query: query)
+            
         }
-        
         if query.isEmpty {
             DispatchQueue.main.async { [self] in
                 repositories.removeAll()
@@ -66,18 +78,16 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
         }
     }
     
-    func setupUIConstraints() {
+    func setupLayout() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            // TableView
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
-        
     }
     
     func handleData(result: Result<[Repository], NetworkRequest.RequestError>, query: String?) {
@@ -139,10 +149,8 @@ extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let section = TableSelection(rawValue: indexPath.section) else { return }
         guard !repositories.isEmpty else { return }
-        
         if section == .loader {
             print("load new data..")
-            
             RepositoryManager.shared.find(query: searchController.searchBar.text!) { [self] result in
                 DispatchQueue.main.async { [self] in
                     handleData(result: result, query: searchController.searchBar.text!)
@@ -152,11 +160,14 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let repository = fetchResultController.object(at: indexPath) as! RepositoryEntity
         if let url = URL(string: repositories[indexPath.row].html_url!) {
             repositories[indexPath.row].isSeen = true
             UIApplication.shared.open(url)
-            
         }
+        repository.isSeen = repositories[indexPath.row].isSeen ?? false
+        repository.name = repositories[indexPath.row].name
+        CoreDataManager.instance.saveContext()
     }
 }
 

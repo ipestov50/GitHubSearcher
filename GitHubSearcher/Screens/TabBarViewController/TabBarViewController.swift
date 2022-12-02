@@ -17,8 +17,8 @@ class TabBarViewController: UITabBarController {
     
     func setupViewConotroller() {
         viewControllers = [
-            createNavigationController(for: SearchViewController(), title: "Search", image: UIImage(systemName: "magnifyingglass")!),
-            createNavigationController(for: LoginViewController(), title: "History", image: UIImage(systemName: "eye.circle")!),
+            createNavigationController(for: SearchViewController(), title: "", image: UIImage(systemName: "magnifyingglass")!),
+            createNavigationController(for: ViewedViewController(), title: "History", image: UIImage(systemName: "eye.circle")!),
         ]
     }
     

@@ -8,8 +8,6 @@
 import Foundation
 
 class RepositoryManager {
-    public var isPaginating = false
-    
     private let sort = "stars"
     static let shared = RepositoryManager()
     
@@ -21,7 +19,7 @@ class RepositoryManager {
         
         let session = URLSession(configuration: .default)
 
-        session.dataTask(with: URL(string: url)! ) { data, response, error in
+        session.dataTask(with: URL(string: url)!) { data, response, error in
 
             guard URL(string: url) != nil else {
                 completion(.failure(.invalidResponse))
